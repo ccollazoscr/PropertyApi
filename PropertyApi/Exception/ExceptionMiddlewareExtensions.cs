@@ -20,7 +20,7 @@ namespace PropertyApi.Exception
                     {
                         var lstErrors = contextFeature.GetListError();
                         if (lstErrors.Count > 0) {
-                            context.Response.StatusCode = MapperStatusCode.GetHttpStatusCode(lstErrors[0].Code).GetHashCode();
+                            context.Response.StatusCode = lstErrors[0].StatusCode.GetHashCode();
                         }
                         else {
                             context.Response.StatusCode = HttpStatusCode.InternalServerError.GetHashCode();

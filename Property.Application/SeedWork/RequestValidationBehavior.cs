@@ -30,15 +30,18 @@ namespace Property.Application.SeedWork
                 List<ErrorCode> lstCustomErrorException = new List<ErrorCode>();
                 foreach (var item in validationFailures)
                 {
-                    ErrorCode objErrorCode = new ErrorCode();
+                    ErrorCode objErrorCode = null;
                     if (item.ErrorMessage.Contains('|'))
                     {
                         string[] lstErrorCode = item.ErrorMessage.Split('|');
-                        objErrorCode.Description = lstErrorCode[0];
-                        objErrorCode.Code = (EnumErrorCode)Enum.Parse(typeof(EnumErrorCode), lstErrorCode[1]);
+                        string description = lstErrorCode[0];
+                        EnumErrorCode code = (EnumErrorCode)Enum.Parse(typeof(EnumErrorCode), lstErrorCode[1]);
+                        objErrorCode = FactoryErrorCode.GetErrorCode(code);
+                        objErrorCode.Description = description;
                     }
                     else
                     {
+                        objErrorCode = FactoryErrorCode.GetErrorCode(EnumErrorCode.Generic);
                         objErrorCode.Description = item.ErrorMessage;
                     }
                     lstCustomErrorException.Add(objErrorCode);

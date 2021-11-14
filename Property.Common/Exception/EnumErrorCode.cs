@@ -6,6 +6,7 @@ namespace Property.Common.Exception
 {
     public enum EnumErrorCode
     {
-        MandatoryNameProduct = 1,
+        Generic = 1,
+        ExistCodeProperty = 10000
     }
 }

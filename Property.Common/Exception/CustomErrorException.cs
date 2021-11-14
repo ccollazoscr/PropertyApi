@@ -11,7 +11,7 @@ namespace Property.Common.Exception
 
         public CustomErrorException(EnumErrorCode errorCode)
         {
-            lstErrorCode.Add(new ErrorCode { Code = errorCode});
+            lstErrorCode.Add(FactoryErrorCode.GetErrorCode(errorCode));
         }
 
         public CustomErrorException(List<ErrorCode> lstErrorCode)

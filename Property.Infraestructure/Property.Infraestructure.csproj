@@ -6,7 +6,9 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="MongoDB.Driver" Version="2.13.2" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="DataAbstractions.Dapper" Version="3.0.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,10 +23,8 @@
     <Folder Include="Adapter\KeyVault\" />
     <Folder Include="Adapter\MessageBroker\" />
     <Folder Include="Adapter\MongoDB\" />
-    <Folder Include="Adapter\SQLServer\" />
     <Folder Include="Adapter\Service\" />
     <Folder Include="Converter\" />
-    <Folder Include="Entity\" />
   </ItemGroup>
 
 </Project>

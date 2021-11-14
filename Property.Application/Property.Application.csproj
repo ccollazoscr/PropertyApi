@@ -16,9 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Command\" />
-    <Folder Include="Finder\" />
-    <Folder Include="Port\" />
+    <Folder Include="Query\" />
     <Folder Include="Validator\" />
   </ItemGroup>
 
