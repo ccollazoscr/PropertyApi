@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.13.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Property.Application\Property.Application.csproj" />
+    <ProjectReference Include="..\Property.Common\Property.Common.csproj" />
+    <ProjectReference Include="..\Property.Model\Property.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Adapter\BlobStorage\" />
+    <Folder Include="Adapter\Cache\" />
+    <Folder Include="Adapter\KeyVault\" />
+    <Folder Include="Adapter\MessageBroker\" />
+    <Folder Include="Adapter\MongoDB\" />
+    <Folder Include="Adapter\SQLServer\" />
+    <Folder Include="Adapter\Service\" />
+    <Folder Include="Converter\" />
+    <Folder Include="Entity\" />
+  </ItemGroup>
+
+</Project>
