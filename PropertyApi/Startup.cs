@@ -1,22 +1,27 @@
+using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Property.Application.Command;
+using Property.Application.Port;
+using Property.Application.SeedWork;
+using Property.Application.Validator;
+using Property.Common.Configuration;
 using Property.Common.Converter;
+using Property.Infraestructure.Adapter.SQLServer;
+using Property.Infraestructure.Converter;
+using Property.Infraestructure.Entity;
 using Property.Model.Model;
 using PropertyApi.Converter;
 using PropertyApi.EntryModel;
-using System;
-using System.Collections.Generic;
+using PropertyApi.Exception;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace PropertyApi
 {
@@ -38,13 +43,49 @@ namespace PropertyApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PropertyApi", Version = "v1" });
             });
-
+            ConfigureExternalLibraries(services);
+            ConfigureApi(services);
             ConfigureApplication(services);
+            ConfigureServiceIfraestructure(services);
         }
+        private void ConfigureExternalLibraries(IServiceCollection services)
+        {
+            //Add MediatR configuration
+            services.AddMediatR(typeof(CreatePropertyCommand).GetTypeInfo().Assembly);
+
+            //Add Validators
+            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreatePropertyCommandValidator>());
+
+            ////Add interceptor validations
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+        }
+
+        private void ConfigureApi(IServiceCollection services)
+        {
+            //Converter
+            services.AddSingleton(typeof(IEntryModelConverter<CreatePropertyEntryModel, PropertyBuilding>), typeof(CreatePropertyEntryModelConverter));
+        }        
 
         private void ConfigureApplication(IServiceCollection services)
         {
+            //Converter
             services.AddSingleton(typeof(IEntryModelConverter<CreatePropertyEntryModel, PropertyBuilding>), typeof(CreatePropertyEntryModelConverter));
+        }
+
+        private void ConfigureServiceIfraestructure(IServiceCollection services)
+        {
+            //Configuración
+            var repositorySettings = new RepositorySettings()
+                                     .SetConnectionString(Configuration.GetSection("ConnectionStrings:SQLServer").Value);
+            services.AddSingleton<IRepositorySettings>(repositorySettings);
+
+            //Converter
+            services.AddSingleton(typeof(IEntityConverter<PropertyBuilding, PropertyEntity>), typeof(PropertyConverter));
+
+            //Repositorios - adaptadores
+            services.AddScoped<IPropertyRepository, PropertyRepository>();
+            services.AddScoped<IPropertyManagerPort, PropertyAdapter>();
+            services.AddScoped<IPropertyFinderPort, PropertyAdapter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,6 +108,8 @@ namespace PropertyApi
             });
 
             app.UseRouting();
+
+            app.ConfigureExceptionHandler();
 
             app.UseAuthorization();
 

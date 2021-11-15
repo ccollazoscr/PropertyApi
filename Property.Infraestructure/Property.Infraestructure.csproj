@@ -24,7 +24,6 @@
     <Folder Include="Adapter\MessageBroker\" />
     <Folder Include="Adapter\MongoDB\" />
     <Folder Include="Adapter\Service\" />
-    <Folder Include="Converter\" />
   </ItemGroup>
 
 </Project>

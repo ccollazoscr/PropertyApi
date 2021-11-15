@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Property.Model.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Property.Application.Port
 {
-    public interface IPropertyFinder
+    public interface IPropertyManagerPort
     {
-        bool ExistProperty(string code);
+        long CreateProperty(PropertyBuilding oPropertyBuilding);
     }
 }

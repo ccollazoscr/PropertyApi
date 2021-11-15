@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Property.Application.Command;
 using Property.Common.Converter;
 using Property.Model.Model;
 using PropertyApi.EntryModel;
@@ -12,11 +14,13 @@ namespace PropertyApi.Controller.v1
     [ApiController]
     public class PropertyController : ControllerBase
     {
-
+        IMediator _mediator;
         private IEntryModelConverter<CreatePropertyEntryModel, PropertyBuilding> _converterToModel;
 
-        public PropertyController(IEntryModelConverter<CreatePropertyEntryModel, PropertyBuilding> converterToModel) {
+        public PropertyController(IMediator mediator, IEntryModelConverter<CreatePropertyEntryModel, PropertyBuilding> converterToModel)
+        {
             _converterToModel = converterToModel;
+            _mediator = mediator;
         }
 
         [HttpPost]
@@ -24,9 +28,10 @@ namespace PropertyApi.Controller.v1
         public async Task<IActionResult> CreatePropertyAsync([FromBody] CreatePropertyEntryModel oCreatePropertyEntryModel)
         {
             PropertyBuilding oProperty = _converterToModel.FromEntryModelToModel(oCreatePropertyEntryModel);
-            oProperty.Id = 1000;
-            var res = _converterToModel.FromModelToEntryModel(oProperty);
-            return Created(string.Empty, res);
+            CreatePropertyCommand oCreatePropertyCommand = new CreatePropertyCommand(oProperty);
+            PropertyBuilding oResPropertyBuilding = await _mediator.Send(oCreatePropertyCommand);
+            oCreatePropertyEntryModel.Id = oResPropertyBuilding.Id;
+            return Created(string.Empty, oCreatePropertyEntryModel);
         }
     }
 }

@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Dapper;
 using DataAbstractions.Dapper;
 using Property.Infraestructure.Common.SQLServer;
+using System.Data.SqlClient;
+using Property.Common.Exception;
 
 namespace Property.Infraestructure.Adapter.SQLServer
 {
@@ -24,7 +26,14 @@ namespace Property.Infraestructure.Adapter.SQLServer
             long id = 0;
             using (var connection = GetConnection())
             {
-                id = connection.QuerySingle<long>(sql, oPropertyEntity);
+                try
+                {
+                    id = connection.QuerySingle<long>(sql, oPropertyEntity);
+                }
+                catch (SqlException ex) when (ex.Number == 547)
+                {
+                    throw new CustomErrorException(EnumErrorCode.ConstraintViolated);
+                }
             }
             return id;
         }

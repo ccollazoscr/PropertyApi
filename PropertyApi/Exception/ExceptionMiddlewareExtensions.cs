@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Property.Common.Exception;
@@ -15,18 +16,27 @@ namespace PropertyApi.Exception
                 appError.Run(async context =>
                 {
                     context.Response.ContentType = "application/json";
-                    CustomErrorException contextFeature = context.Features.Get<CustomErrorException>();
+                    IExceptionHandlerFeature contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                     if (contextFeature != null)
                     {
-                        var lstErrors = contextFeature.GetListError();
-                        if (lstErrors.Count > 0) {
-                            context.Response.StatusCode = lstErrors[0].StatusCode.GetHashCode();
+                        if (contextFeature.Error is CustomErrorException)
+                        {
+                            var lstErrors = ((CustomErrorException)contextFeature.Error).GetListError();
+                            if (lstErrors.Count > 0)
+                            {
+                                context.Response.StatusCode = lstErrors[0].StatusCode.GetHashCode();
+                            }
+                            else
+                            {
+                                context.Response.StatusCode = HttpStatusCode.InternalServerError.GetHashCode();
+                            }
+
+                            await context.Response.WriteAsync(JsonConvert.SerializeObject(lstErrors));
                         }
                         else {
                             context.Response.StatusCode = HttpStatusCode.InternalServerError.GetHashCode();
                         }
-                        
-                        await context.Response.WriteAsync(JsonConvert.SerializeObject(lstErrors));
+                       
                     }
                 });
             });

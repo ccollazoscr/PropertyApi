@@ -13,7 +13,10 @@ namespace Property.Common.Exception
             switch (errorCode)
             {
                 case EnumErrorCode.ExistCodeProperty:
-                    oErrorCode.Description = "Código de propiedad ya existe";
+                    oErrorCode.Description = "Property code already exists";
+                    break;
+                case EnumErrorCode.ConstraintViolated:
+                    oErrorCode.Description = "Contraint violated. Please review all references.";
                     break;
                 default:
                     break;

@@ -12,9 +12,8 @@ namespace Property.Application.SeedWork
     public class RequestValidationBehavior<TRequest, TResponse> :
         IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
-        private readonly IValidator<TRequest>[] _validators;
-        public RequestValidationBehavior(IValidator<TRequest>[] validators) =>
-                                                             _validators = validators;
+        private readonly IEnumerable<IValidator<TRequest>> _validators;
+        public RequestValidationBehavior(IEnumerable<IValidator<TRequest>> validators) => _validators = validators;
 
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
@@ -34,8 +33,10 @@ namespace Property.Application.SeedWork
                     if (item.ErrorMessage.Contains('|'))
                     {
                         string[] lstErrorCode = item.ErrorMessage.Split('|');
-                        string description = lstErrorCode[0];
-                        EnumErrorCode code = (EnumErrorCode)Enum.Parse(typeof(EnumErrorCode), lstErrorCode[1]);
+                        string strCode = lstErrorCode[0];
+                        string description = lstErrorCode[1];
+                        
+                        EnumErrorCode code = (EnumErrorCode)Enum.Parse(typeof(EnumErrorCode), strCode);
                         objErrorCode = FactoryErrorCode.GetErrorCode(code);
                         objErrorCode.Description = description;
                     }

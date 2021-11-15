@@ -7,5 +7,8 @@ namespace Property.Application.Command
     public class CreatePropertyCommand : IRequest<PropertyBuilding>
     {
         public PropertyBuilding Property { get; }
+        public CreatePropertyCommand(PropertyBuilding property) {
+            Property = property;
+        }
     }
 }

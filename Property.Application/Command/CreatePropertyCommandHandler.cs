@@ -9,9 +9,9 @@ namespace Property.Application.Command
 {
     public class CreatePropertyCommandHandler : IRequestHandler<CreatePropertyCommand, PropertyBuilding>
     {
-        private IPropertyManager _propertyManager;
-        private IPropertyFinder _propertyFinder;
-        public CreatePropertyCommandHandler(IPropertyManager propertyManager, IPropertyFinder propertyFinder) {
+        private IPropertyManagerPort _propertyManager;
+        private IPropertyFinderPort _propertyFinder;
+        public CreatePropertyCommandHandler(IPropertyManagerPort propertyManager, IPropertyFinderPort propertyFinder) {
             _propertyManager = propertyManager;
             _propertyFinder = propertyFinder;
         }
@@ -20,7 +20,7 @@ namespace Property.Application.Command
         {
             PropertyBuilding oPropertyBuilding = request.Property;
 
-            //Validamos si la propiedad existe por el código
+            //Business validations
             if (_propertyFinder.ExistProperty(oPropertyBuilding.Code))
             {
                 throw new CustomErrorException(EnumErrorCode.ExistCodeProperty);
