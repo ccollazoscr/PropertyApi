@@ -27,7 +27,7 @@ namespace Property.Application.Validator
                 .GreaterThanOrEqualTo(1900).WithMessage($"{EnumErrorCode.PropertyYearValue.GetHashCode()}|The year must be greater than or equal to 1900");
             RuleFor(item => item.Property.Owner)
                 .NotNull().WithMessage($"{EnumErrorCode.PropertyOwnerMandatory.GetHashCode()}|The owner is required");
-            RuleFor(item => item.Property.Owner.IdOwner)
+            RuleFor(item => item.Property.Owner.Id)
                 .NotNull().WithMessage($"{EnumErrorCode.PropertyIdOwnerMandatory.GetHashCode()}|The owner id is required")
                 .GreaterThan(0).WithMessage($"{EnumErrorCode.PropertyIdOwnerValue.GetHashCode()}|The owner id must be a value greater than zero");
         }

@@ -13,7 +13,7 @@ namespace PropertyApi.Converter
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<CreatePropertyEntryModel, PropertyBuilding>()
-                .ForPath(dest => dest.Owner.IdOwner, entryModel => entryModel.MapFrom(em => em.IdOwner))
+                .ForPath(dest => dest.Owner.Id, entryModel => entryModel.MapFrom(em => em.IdOwner))
                 .ReverseMap();
             });
             _Mapper = new Mapper(config);

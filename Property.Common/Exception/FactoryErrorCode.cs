@@ -18,6 +18,9 @@ namespace Property.Common.Exception
                 case EnumErrorCode.ConstraintViolated:
                     oErrorCode.Description = "Contraint violated. Please review all references.";
                     break;
+                case EnumErrorCode.SaveImageFileStorage:
+                    oErrorCode.Description = "Error save image";
+                    break;
                 default:
                     break;
             }

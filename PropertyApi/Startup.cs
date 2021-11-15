@@ -13,6 +13,7 @@ using Property.Application.SeedWork;
 using Property.Application.Validator;
 using Property.Common.Configuration;
 using Property.Common.Converter;
+using Property.Infraestructure.Adapter.FileStorage;
 using Property.Infraestructure.Adapter.SQLServer;
 using Property.Infraestructure.Converter;
 using Property.Infraestructure.Entity;
@@ -75,17 +76,30 @@ namespace PropertyApi
         private void ConfigureServiceIfraestructure(IServiceCollection services)
         {
             //Configuración
-            var repositorySettings = new RepositorySettings()
+            RepositorySettings oRepositorySettings = new RepositorySettings()
                                      .SetConnectionString(Configuration.GetSection("ConnectionStrings:SQLServer").Value);
-            services.AddSingleton<IRepositorySettings>(repositorySettings);
+            services.AddSingleton<IRepositorySettings>(oRepositorySettings);
+
+            ImageSettings oImageSettings = new ImageSettings().SetRootFolder(Configuration.GetValue<string>("StaticFiles:StaticFiles"))
+                                                              .SetOwnerFolder(Configuration.GetValue<string>("StaticFiles:ImagesOwners"))
+                                                              .SetPropertyFolder(Configuration.GetValue<string>("StaticFiles:ImagesProperties"));
+            services.AddSingleton<IImageSettings>(oImageSettings);
 
             //Converter
             services.AddSingleton(typeof(IEntityConverter<PropertyBuilding, PropertyEntity>), typeof(PropertyConverter));
+            services.AddSingleton(typeof(IEntityConverter<Owner, OwnerEntity>), typeof(OwnerConverter));
+
+
 
             //Repositorios - adaptadores
             services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddScoped<IPropertyManagerPort, PropertyAdapter>();
             services.AddScoped<IPropertyFinderPort, PropertyAdapter>();
+
+            services.AddScoped<IOwnerRepository, OwnerRepository>();
+            services.AddScoped<IOwnerManagerPort, OwnerAdapter>();
+
+            services.AddScoped<IImageManagerPort, ImageAdapter>();            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,11 +114,12 @@ namespace PropertyApi
 
             app.UseHttpsRedirection();
 
+            string staticFiles = Configuration.GetValue<string>("StaticFiles:Root");
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
-                    Path.Combine(env.ContentRootPath, "StaticFiles")),
-                RequestPath = "/StaticFiles"
+                    Path.Combine(env.ContentRootPath, staticFiles)),
+                RequestPath = $"/{staticFiles}"
             });
 
             app.UseRouting();

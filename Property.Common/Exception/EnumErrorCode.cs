@@ -7,16 +7,23 @@ namespace Property.Common.Exception
     public enum EnumErrorCode
     {
         Generic = 1,
-        ExistCodeProperty = 10000,
-        PropertyIdOwnerMandatory = 10001,
-        PropertyCodeMandatory = 10002,
-        PropertyCodeLength = 10003,
-        PropertyYearValue = 10004,
-        PropertyOwnerMandatory = 10005,
-        PropertyIdOwnerValue = 10006,
 
-        ConstraintViolated = 20001
+        ConstraintViolated = 10000,
+        SaveImageFileStorage = 10001,
 
-
+        ExistCodeProperty = 20000,
+        PropertyIdOwnerMandatory = 20001,
+        PropertyCodeMandatory = 20002,
+        PropertyCodeLength = 20003,
+        PropertyYearValue = 20004,
+        PropertyOwnerMandatory = 20005,
+        PropertyIdOwnerValue = 20006,
+        OwnerNameMandatory = 20007,
+        OwnerAddressMandatory = 20008,
+        OwnerNameLength = 20009,
+        OwnerAddressLength = 20010,
+        OwnerPhotoType = 20011,
+        OwnerBirthdayMandatory = 20012,
+        
     }
 }

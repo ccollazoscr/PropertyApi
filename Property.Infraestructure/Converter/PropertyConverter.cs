@@ -17,7 +17,7 @@ namespace Property.Infraestructure.Converter
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<PropertyBuilding, PropertyEntity>()
-                .ForPath(dest => dest.IdOwner, model => model.MapFrom(m => m.Owner.IdOwner))
+                .ForPath(dest => dest.IdOwner, model => model.MapFrom(m => m.Owner.Id))
                 .ForMember(dest => dest.CodeInternal, model => model.MapFrom(m=>m.Code))
                 .ReverseMap();
             });
