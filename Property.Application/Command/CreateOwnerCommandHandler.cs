@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Property.Application.Dto;
 using Property.Application.Port;
 using Property.Model.Model;
 using System;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Property.Application.Command
 {
-    public class CreateOwnerCommandHandler : IRequestHandler<CreateOwnerCommand, long>
+    public class CreateOwnerCommandHandler : IRequestHandler<CreateOwnerCommand, CreateOwnerDto>
     {
         private IImageManagerPort _imageManagerPort;
         private IOwnerManagerPort _ownerManagerPort;
@@ -16,16 +17,21 @@ namespace Property.Application.Command
             _ownerManagerPort = ownerManagerPort;
         }
 
-        public async Task<long> Handle(CreateOwnerCommand request, CancellationToken cancellationToken)
+        public async Task<CreateOwnerDto> Handle(CreateOwnerCommand request, CancellationToken cancellationToken)
         {
             //Save Photo
-            string pathPhoto = "";
+            string namePhoto = "";
+            string hostPhoto = "";
             if (request.Photo != null) {
-                pathPhoto = await _imageManagerPort.SaveImageAsync(request.Photo, Common.Enum.ImageType.Owner);
+                namePhoto = await _imageManagerPort.SaveImageAsync(request.Photo, Common.Enum.ImageType.Owner);
+                hostPhoto = _imageManagerPort.GetHostImage(Common.Enum.ImageType.Owner, namePhoto);
             }
-            Owner oOwner = new Owner() { Name = request.Name, Address = request.Address, Photo = pathPhoto, Birthdaty = request.Birthday };
+            Owner oOwner = new Owner() { Name = request.Name, Address = request.Address, Photo = namePhoto, Birthdaty = request.Birthday };
             //Save Owner
-            return _ownerManagerPort.CreateOwner(oOwner);
+            long id = _ownerManagerPort.CreateOwner(oOwner);
+            CreateOwnerDto oCreateOwnerDto = new CreateOwnerDto(){Id = id,Photo = hostPhoto};
+            return oCreateOwnerDto;
         }
+
     }
 }

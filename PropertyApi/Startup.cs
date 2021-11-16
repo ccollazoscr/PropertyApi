@@ -80,15 +80,15 @@ namespace PropertyApi
                                      .SetConnectionString(Configuration.GetSection("ConnectionStrings:SQLServer").Value);
             services.AddSingleton<IRepositorySettings>(oRepositorySettings);
 
-            ImageSettings oImageSettings = new ImageSettings().SetRootFolder(Configuration.GetValue<string>("StaticFiles:StaticFiles"))
-                                                              .SetOwnerFolder(Configuration.GetValue<string>("StaticFiles:ImagesOwners"))
-                                                              .SetPropertyFolder(Configuration.GetValue<string>("StaticFiles:ImagesProperties"));
-            services.AddSingleton<IImageSettings>(oImageSettings);
+            GeneralSettings oGeneraSettings = new GeneralSettings().SetRootFolder(Configuration.GetSection("StaticFiles:Root").Value)
+                                                              .SetOwnerFolder(Configuration.GetSection("StaticFiles:Owners").Value)
+                                                              .SetPropertyFolder(Configuration.GetSection("StaticFiles:Properties").Value)
+                                                              .SetHost(Configuration.GetSection("Host").Value);
+            services.AddSingleton<IGeneralSettings>(oGeneraSettings);
 
             //Converter
             services.AddSingleton(typeof(IEntityConverter<PropertyBuilding, PropertyEntity>), typeof(PropertyConverter));
             services.AddSingleton(typeof(IEntityConverter<Owner, OwnerEntity>), typeof(OwnerConverter));
-
 
 
             //Repositorios - adaptadores

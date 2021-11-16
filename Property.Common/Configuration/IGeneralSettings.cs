@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Property.Common.Configuration
 {
-    public interface IImageSettings
+    public interface IGeneralSettings
     {
         string GetRootFolder();
         string GetOwnerFolder();
         string GetPropertyFolder();
+        string GetHost();
     }
 }

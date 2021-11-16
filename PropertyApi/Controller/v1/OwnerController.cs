@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Property.Application.Command;
+using Property.Application.Dto;
 using PropertyApi.EntryModel;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace PropertyApi.Controller.v1
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(CreateOwnerEntryModel), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(CreateOwnerDto), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> CreatePropertyAsync([FromForm] CreateOwnerEntryModel oCreateOwnerEntryModel)
         {
             CreateOwnerCommand oCreateOwnerCommand = new CreateOwnerCommand()
@@ -30,8 +31,8 @@ namespace PropertyApi.Controller.v1
                                                             .SetPhoto(oCreateOwnerEntryModel.Photo)
                                                             .SetBirthday(oCreateOwnerEntryModel.Birthday);
 
-            oCreateOwnerEntryModel.Id = await _mediator.Send(oCreateOwnerCommand);
-            return Created(string.Empty, oCreateOwnerEntryModel);
+            CreateOwnerDto oCreateOwnerDto = await _mediator.Send(oCreateOwnerCommand);
+            return Created(string.Empty, oCreateOwnerDto);
         }
 
     }

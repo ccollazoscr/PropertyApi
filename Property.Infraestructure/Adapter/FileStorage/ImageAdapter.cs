@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Property.Application.Port;
 using Property.Common.Configuration;
 using Property.Common.Enum;
@@ -14,9 +15,11 @@ namespace Property.Infraestructure.Adapter.FileStorage
 {
     public class ImageAdapter : IImageManagerPort
     {
-        private IImageSettings _imageSettings;
-        public ImageAdapter(IImageSettings imageSettings) {
+        private IGeneralSettings _imageSettings;
+        private IHostingEnvironment _hostingEnvironment;
+        public ImageAdapter(IGeneralSettings imageSettings, IHostingEnvironment hostingEnvironment) {
             _imageSettings = imageSettings;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public async Task<string> SaveImageAsync(IFormFile formFile, ImageType imageType)
@@ -25,7 +28,7 @@ namespace Property.Infraestructure.Adapter.FileStorage
             {
                 string ext = Path.GetExtension(formFile.FileName);
                 string fileName = $"{Guid.NewGuid()}{ext}";
-                string filePath = GetPathSaveFile(imageType) + "/" + fileName;
+                string filePath = GetPathSaveFile(imageType) + "\\" + fileName;
                 using (Stream fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     await formFile.CopyToAsync(fileStream);
@@ -38,19 +41,29 @@ namespace Property.Infraestructure.Adapter.FileStorage
             }
         }
 
+        public string GetHostImage(ImageType imageType, string name)
+        {
+            return $"{_imageSettings.GetHost()}/{_imageSettings.GetRootFolder()}/{GetFolderByType(imageType)}/{name}";
+        }
+
         private string GetPathSaveFile(ImageType imageType) {
-            string baseFolder = $"{AppContext.BaseDirectory}{_imageSettings.GetRootFolder()}/";
+            string baseFolder = $"{_hostingEnvironment.ContentRootPath}\\{_imageSettings.GetRootFolder()}\\";
+            baseFolder += GetFolderByType(imageType);
+            return baseFolder;
+        }
+
+        private string GetFolderByType(ImageType imageType) {
+            string folder="";
             switch (imageType)
             {
                 case ImageType.Owner:
-                    baseFolder += _imageSettings.GetOwnerFolder();
+                    folder = _imageSettings.GetOwnerFolder();
                     break;
                 case ImageType.Properties:
-                    baseFolder += _imageSettings.GetPropertyFolder();
+                    folder = _imageSettings.GetPropertyFolder();
                     break;
             }
-
-            return baseFolder;
+            return folder;
         }
 
         

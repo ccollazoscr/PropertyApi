@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
+using Property.Application.Dto;
 using Property.Model.Model;
 using System;
 
 namespace Property.Application.Command
 {
-    public class CreateOwnerCommand : IRequest<long>
+    public class CreateOwnerCommand : IRequest<CreateOwnerDto>
     {
         public string Name { get; set; }
         public string Address { get; set; }

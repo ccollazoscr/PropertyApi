@@ -26,7 +26,12 @@ namespace Property.Infraestructure.Adapter.SQLServer
             {
                 try
                 {
-                    id = connection.QuerySingle<long>(sql, ownerEntity);
+                    id = connection.QuerySingle<long>(sql, new {
+                        Name = ownerEntity.Name,
+                        Address = ownerEntity.Address,
+                        Photo = ownerEntity.Photo,
+                        Birthday = ownerEntity.Birthdaty
+                    } );
                 }
                 catch (SqlException ex) when (ex.Number == 547)
                 {

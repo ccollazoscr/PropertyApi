@@ -1,26 +1,33 @@
 ﻿namespace Property.Common.Configuration
 {
-    public class ImageSettings : IImageSettings
+    public class GeneralSettings : IGeneralSettings
     {
         private string RootFolder;
         private string OwnerFolder;
-        private string PropertyFolder;        
+        private string PropertyFolder;
+        private string Host;
 
-        public ImageSettings SetRootFolder(string rootFolder)
+        public GeneralSettings SetRootFolder(string rootFolder)
         {
             RootFolder = rootFolder;
             return this;
         }
 
-        public ImageSettings SetOwnerFolder(string ownerFolder)
+        public GeneralSettings SetOwnerFolder(string ownerFolder)
         {
             OwnerFolder = ownerFolder;
             return this;
         }
 
-        public ImageSettings SetPropertyFolder(string propertyFolder)
+        public GeneralSettings SetPropertyFolder(string propertyFolder)
         {
             PropertyFolder = propertyFolder;
+            return this;
+        }
+
+        public GeneralSettings SetHost(string host)
+        {
+            Host = host;
             return this;
         }
 
@@ -37,6 +44,11 @@
         public string GetPropertyFolder()
         {
             return PropertyFolder;
+        }
+
+        public string GetHost()
+        {
+            return Host;
         }
     }
 }
