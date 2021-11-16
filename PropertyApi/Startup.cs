@@ -14,7 +14,8 @@ using Property.Application.Validator;
 using Property.Common.Configuration;
 using Property.Common.Converter;
 using Property.Infraestructure.Adapter.FileStorage;
-using Property.Infraestructure.Adapter.SQLServer;
+using Property.Infraestructure.Adapter.SQLServer.Adapter;
+using Property.Infraestructure.Adapter.SQLServer.Repository;
 using Property.Infraestructure.Converter;
 using Property.Infraestructure.Entity;
 using Property.Model.Model;
@@ -89,8 +90,8 @@ namespace PropertyApi
             //Converter
             services.AddSingleton(typeof(IEntityConverter<PropertyBuilding, PropertyEntity>), typeof(PropertyConverter));
             services.AddSingleton(typeof(IEntityConverter<Owner, OwnerEntity>), typeof(OwnerConverter));
-
-
+            services.AddSingleton(typeof(IEntityConverter<PropertyImage, PropertyImageEntity>), typeof(PropertyImageConverter));
+            
             //Repositorios - adaptadores
             services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddScoped<IPropertyManagerPort, PropertyAdapter>();
@@ -98,6 +99,9 @@ namespace PropertyApi
 
             services.AddScoped<IOwnerRepository, OwnerRepository>();
             services.AddScoped<IOwnerManagerPort, OwnerAdapter>();
+
+            services.AddScoped<IPropertyImageRepository, PropertyImageRepository>();
+            services.AddScoped<IPropertyImageManagerPort, PropertyImageAdapter>();
 
             services.AddScoped<IImageManagerPort, ImageAdapter>();            
         }

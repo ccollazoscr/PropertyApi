@@ -1,12 +1,6 @@
 ﻿using FluentValidation;
-using Microsoft.AspNetCore.Http;
 using Property.Application.Command;
 using Property.Common.Exception;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Property.Application.Validator
 {
@@ -33,13 +27,6 @@ namespace Property.Application.Validator
             .NotNull().WithMessage($"{EnumErrorCode.OwnerBirthdayMandatory.GetHashCode()}|Owner birthay is required");
         }
 
-        public class FileValidator : AbstractValidator<IFormFile>
-        {
-            public FileValidator()
-            {
-                RuleFor(x => x.ContentType).Must(x => x.Equals("image/jpeg") || x.Equals("image/jpg") || x.Equals("image/png"))
-                    .WithMessage($"{EnumErrorCode.OwnerPhotoType.GetHashCode()}|File type Photo is not allowed");
-            }
-        }
+        
     }
 }

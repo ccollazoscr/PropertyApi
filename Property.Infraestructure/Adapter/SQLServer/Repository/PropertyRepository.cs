@@ -11,7 +11,7 @@ using Property.Infraestructure.Common.SQLServer;
 using System.Data.SqlClient;
 using Property.Common.Exception;
 
-namespace Property.Infraestructure.Adapter.SQLServer
+namespace Property.Infraestructure.Adapter.SQLServer.Repository
 {
     public class PropertyRepository : SQLServerBase, IPropertyRepository
     {

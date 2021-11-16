@@ -25,5 +25,8 @@ namespace Property.Common.Exception
         OwnerPhotoType = 20011,
         OwnerBirthdayMandatory = 20012,
         
+        PropertyBuildingMandatory = 20014,
+        PropertyBuildingIdValue = 20015,
+        FileMandatory = 20016,
     }
 }

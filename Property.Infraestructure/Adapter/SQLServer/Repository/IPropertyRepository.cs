@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Property.Infraestructure.Adapter.SQLServer
+namespace Property.Infraestructure.Adapter.SQLServer.Repository
 {
     public interface IPropertyRepository
     {
