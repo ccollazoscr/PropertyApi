@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace PropertyApi.Controller.v1
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class PropertyImageController : ControllerBase
     {
@@ -28,7 +28,7 @@ namespace PropertyApi.Controller.v1
 
         [HttpPost]
         [ProducesResponseType(typeof(CreatePropertyImageDto), (int)HttpStatusCode.Created)]
-        public async Task<IActionResult> CreatePropertyAsync([FromBody] CreatePropertyImageEntryModel oCreatePropertyEntryModel)
+        public async Task<IActionResult> CreatePropertyAsync([FromForm] CreatePropertyImageEntryModel oCreatePropertyEntryModel)
         {
             CreatePropertyImageCommand oCreatePropertyCommand = new CreatePropertyImageCommand()
                                                                     .SetIdProperty(oCreatePropertyEntryModel.IdProperty)

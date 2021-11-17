@@ -23,7 +23,7 @@ namespace Property.Application.Command
         {
             //Save Photo
             string namePhoto = await _imageManagerPort.SaveImageAsync(request.File, Common.Enum.ImageType.Properties);
-            string hostImage = _imageManagerPort.GetHostImage(Common.Enum.ImageType.Owner, namePhoto);
+            string hostImage = _imageManagerPort.GetHostImage(Common.Enum.ImageType.Properties, namePhoto);
 
             PropertyImage oPropertyImage = new PropertyImage() { PropertyBuilding=new PropertyBuilding() { Id = request.IdProperty}, File = namePhoto, Enabled = request.Enabled  };
             //Save Owner

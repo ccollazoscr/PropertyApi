@@ -14,14 +14,18 @@ namespace Property.Infraestructure.Adapter.SQLServer.Repository
 
         public long Insert(PropertyImageEntity propertyImageEntity)
         {
-            string sql = "INSERT INTO PropertyImage (IdProperty,File,Enabled) Values (@IdProperty,@File,@Enabled);" +
+            string sql = "INSERT INTO PropertyImage (IdProperty,[File],Enabled) Values (@IdProperty,@File,@Enabled);" +
                         "SELECT CAST(SCOPE_IDENTITY() as bigint);";
             long id = 0;
             using (var connection = GetConnection())
             {
                 try
                 {
-                    id = connection.QuerySingle<long>(sql, propertyImageEntity);
+                    id = connection.QuerySingle<long>(sql,new {
+                        IdProperty = propertyImageEntity.IdProperty,
+                        File= propertyImageEntity.File,
+                        Enabled = propertyImageEntity.Enabled
+                    });
                 }
                 catch (SqlException ex) when (ex.Number == 547)
                 {
