@@ -46,5 +46,14 @@ namespace Property.Infraestructure.Adapter.SQLServer.Repository
                 return connection.ExecuteScalar<bool>(sql, new { code });
             }
         }
+
+        public bool UpdatePrice(long idProperty, decimal price)
+        {
+            string sql = "UPDATE Property SET Price=@price WHERE IdProperty=@idProperty";
+            using (var connection = GetConnection())
+            {
+                return connection.Execute(sql, new { price=price, idProperty=idProperty })>0;
+            }
+        }
     }
 }

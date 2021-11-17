@@ -25,5 +25,10 @@ namespace Property.Infraestructure.Adapter.SQLServer.Adapter
         {
             return _propertyRepository.ExistProperty(code);
         }
+
+        public bool UpdatePrice(long idProperty, decimal price)
+        {
+            return _propertyRepository.UpdatePrice(idProperty, price);
+        }
     }
 }

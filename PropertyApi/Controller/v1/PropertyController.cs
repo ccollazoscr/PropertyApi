@@ -1,10 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Property.Application.Command;
+using Property.Application.Dto;
 using Property.Common.Converter;
 using Property.Model.Model;
 using PropertyApi.EntryModel;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 
@@ -32,6 +34,15 @@ namespace PropertyApi.Controller.v1
             PropertyBuilding oResPropertyBuilding = await _mediator.Send(oCreatePropertyCommand);
             oCreatePropertyEntryModel.Id = oResPropertyBuilding.Id;
             return Created(string.Empty, oCreatePropertyEntryModel);
+        }
+
+        [HttpPatch("updateprice")]
+        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> UpdatePrice([FromBody] UpdatePriceEntryModel oUpdatePriceEntryModel)
+        {
+            UpdatePriceCommand oUpdatePriceCommand = new UpdatePriceCommand().SetId(oUpdatePriceEntryModel.Id).SetPrice(oUpdatePriceEntryModel.Price);
+            ResponseDto oResponseDto = await _mediator.Send(oUpdatePriceCommand);
+            return Ok(JsonSerializer.Serialize(oResponseDto));
         }
     }
 }

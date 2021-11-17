@@ -12,5 +12,7 @@ namespace Property.Infraestructure.Adapter.SQLServer.Repository
         public long Insert(PropertyEntity oPropertyEntity);
 
         public bool ExistProperty(string code);
+
+        public bool UpdatePrice(long idProperty, decimal price);
     }
 }
