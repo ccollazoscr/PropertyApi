@@ -16,7 +16,7 @@ namespace Property.Common.Exception
                     oErrorCode.Description = "Property code already exists";
                     break;
                 case EnumErrorCode.ConstraintViolated:
-                    oErrorCode.Description = "Contraint violated. Please review all references.";
+                    oErrorCode.Description = "Constraint violated. Please review all references.";
                     break;
                 case EnumErrorCode.SaveImageFileStorage:
                     oErrorCode.Description = "Error save image";

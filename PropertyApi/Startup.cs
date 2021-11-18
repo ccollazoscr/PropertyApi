@@ -72,6 +72,7 @@ namespace PropertyApi
         {
             //Converter
             services.AddSingleton(typeof(IEntryModelConverter<CreatePropertyEntryModel, PropertyBuilding>), typeof(CreatePropertyEntryModelConverter));
+            services.AddSingleton(typeof(IEntryModelConverter<UpdatePropertyEntryModel, PropertyBuilding>), typeof(UpdatePropertyEntryModelConverter));
         }
 
         private void ConfigureServiceIfraestructure(IServiceCollection services)
@@ -91,7 +92,8 @@ namespace PropertyApi
             services.AddSingleton(typeof(IEntityConverter<PropertyBuilding, PropertyEntity>), typeof(PropertyConverter));
             services.AddSingleton(typeof(IEntityConverter<Owner, OwnerEntity>), typeof(OwnerConverter));
             services.AddSingleton(typeof(IEntityConverter<PropertyImage, PropertyImageEntity>), typeof(PropertyImageConverter));
-            
+            services.AddSingleton(typeof(IEntityConverter<PropertyTrace, PropertyTraceEntity>), typeof(PropertyTraceConverter));
+
             //Repositorios - adaptadores
             services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddScoped<IPropertyManagerPort, PropertyAdapter>();
@@ -102,6 +104,9 @@ namespace PropertyApi
 
             services.AddScoped<IPropertyImageRepository, PropertyImageRepository>();
             services.AddScoped<IPropertyImageManagerPort, PropertyImageAdapter>();
+
+            services.AddScoped<IPropertyTraceRepository, PropertyTraceRepository>();
+            services.AddScoped<IPropertyTraceManagerPort, PropertyTraceAdapter>();
 
             services.AddScoped<IImageManagerPort, ImageAdapter>();            
         }

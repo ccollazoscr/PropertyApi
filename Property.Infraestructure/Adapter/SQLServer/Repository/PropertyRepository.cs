@@ -15,10 +15,11 @@ namespace Property.Infraestructure.Adapter.SQLServer.Repository
 {
     public class PropertyRepository : SQLServerBase, IPropertyRepository
     {
-        public PropertyRepository(IRepositorySettings repositorySettings):base(repositorySettings) {
+        public PropertyRepository(IRepositorySettings repositorySettings) : base(repositorySettings)
+        {
         }
 
-        
+
         public long Insert(PropertyEntity oPropertyEntity)
         {
             string sql = "INSERT INTO Property (Name,Address,Price,CodeInternal,Year,IdOwner) Values (@Name,@Address,@Price,@CodeInternal,@Year,@IdOwner);" +
@@ -52,7 +53,36 @@ namespace Property.Infraestructure.Adapter.SQLServer.Repository
             string sql = "UPDATE Property SET Price=@price WHERE IdProperty=@idProperty";
             using (var connection = GetConnection())
             {
-                return connection.Execute(sql, new { price=price, idProperty=idProperty })>0;
+                return connection.Execute(sql, new { price = price, idProperty = idProperty }) > 0;
+            }
+        }
+
+        public bool ExistPropertyWithCondition(string code, long propertyId)
+        {
+            string sql = "SELECT COUNT(1) FROM Property WHERE CodeInternal=@code AND IdProperty<>@IdProperty";
+            using (var connection = GetConnection())
+            {
+                return connection.ExecuteScalar<bool>(sql, new { code, IdProperty = propertyId });
+            }
+        }
+
+        public bool UpdateProperty(PropertyEntity oPropertyEntity)
+        {
+            string sql = @"UPDATE Property 
+                           SET Name=@Name,Address=@Address,Price=@Price,CodeInternal=@CodeInternal,Year=@Year,IdOwner=@IdOwner
+                           WHERE IdProperty=@IdProperty";
+            using (var connection = GetConnection())
+            {
+                return connection.Execute(sql, oPropertyEntity) > 0;
+            }
+        }
+
+        public PropertyEntity GetById(long propertyId)
+        {
+            string sql = @"SELECT * FROM Property WHERE IdProperty=@IdProperty";
+            using (var connection = GetConnection())
+            {
+                return connection.Query<PropertyEntity>(sql, new { IdProperty = propertyId }).FirstOrDefault();
             }
         }
     }

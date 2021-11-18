@@ -11,5 +11,6 @@ namespace Property.Application.Port
     {
         long CreateProperty(PropertyBuilding oPropertyBuilding);
         bool UpdatePrice(long idProperty, decimal price);
+        bool UpdateProperty(PropertyBuilding oPropertyBuilding);
     }
 }

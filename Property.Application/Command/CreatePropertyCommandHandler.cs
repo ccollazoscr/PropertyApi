@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Property.Application.Dto;
 using Property.Application.Port;
 using Property.Common.Exception;
 using Property.Model.Model;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Property.Application.Command
 {
-    public class CreatePropertyCommandHandler : IRequestHandler<CreatePropertyCommand, PropertyBuilding>
+    public class CreatePropertyCommandHandler : IRequestHandler<CreatePropertyCommand, CreatePropertyDto>
     {
         private IPropertyManagerPort _propertyManager;
         private IPropertyFinderPort _propertyFinder;
@@ -16,7 +17,7 @@ namespace Property.Application.Command
             _propertyFinder = propertyFinder;
         }
 
-        public Task<PropertyBuilding> Handle(CreatePropertyCommand request, CancellationToken cancellationToken)
+        public Task<CreatePropertyDto> Handle(CreatePropertyCommand request, CancellationToken cancellationToken)
         {
             PropertyBuilding oPropertyBuilding = request.Property;
 
@@ -25,13 +26,12 @@ namespace Property.Application.Command
             {
                 throw new CustomErrorException(EnumErrorCode.ExistCodeProperty);
             }
-
-            long idProperty = _propertyManager.CreateProperty(oPropertyBuilding);
-            oPropertyBuilding.Id = idProperty;
+            CreatePropertyDto oCreatePropertyDto = new CreatePropertyDto();
+            oCreatePropertyDto.Id = _propertyManager.CreateProperty(oPropertyBuilding);
 
             return Task.Run(() =>
             {
-                return oPropertyBuilding;
+                return oCreatePropertyDto;
             }); 
         }
     }

@@ -18,22 +18,25 @@ namespace PropertyApi.Controller.v1
     {
         IMediator _mediator;
         private IEntryModelConverter<CreatePropertyEntryModel, PropertyBuilding> _converterToModel;
+        private IEntryModelConverter<UpdatePropertyEntryModel, PropertyBuilding> _converterUpdateToModel;
 
-        public PropertyController(IMediator mediator, IEntryModelConverter<CreatePropertyEntryModel, PropertyBuilding> converterToModel)
+        public PropertyController(IMediator mediator, 
+            IEntryModelConverter<CreatePropertyEntryModel, PropertyBuilding> converterToModel, 
+            IEntryModelConverter<UpdatePropertyEntryModel, PropertyBuilding> converterUpdateToModel)
         {
             _converterToModel = converterToModel;
+            _converterUpdateToModel = converterUpdateToModel;
             _mediator = mediator;
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(CreatePropertyEntryModel), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(CreatePropertyDto), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> CreatePropertyAsync([FromBody] CreatePropertyEntryModel oCreatePropertyEntryModel)
         {
             PropertyBuilding oProperty = _converterToModel.FromEntryModelToModel(oCreatePropertyEntryModel);
             CreatePropertyCommand oCreatePropertyCommand = new CreatePropertyCommand(oProperty);
-            PropertyBuilding oResPropertyBuilding = await _mediator.Send(oCreatePropertyCommand);
-            oCreatePropertyEntryModel.Id = oResPropertyBuilding.Id;
-            return Created(string.Empty, oCreatePropertyEntryModel);
+            CreatePropertyDto oCreatePropertyDto = await _mediator.Send(oCreatePropertyCommand);
+            return Created(string.Empty, oCreatePropertyDto);
         }
 
         [HttpPatch("updateprice")]
@@ -43,6 +46,16 @@ namespace PropertyApi.Controller.v1
             UpdatePriceCommand oUpdatePriceCommand = new UpdatePriceCommand().SetId(oUpdatePriceEntryModel.Id).SetPrice(oUpdatePriceEntryModel.Price);
             ResponseDto oResponseDto = await _mediator.Send(oUpdatePriceCommand);
             return Ok(JsonSerializer.Serialize(oResponseDto));
+        }
+
+        [HttpPut]
+        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> UpdatePropertyAsync([FromBody] UpdatePropertyEntryModel oUpdatePropertyEntryModel)
+        {
+            PropertyBuilding oProperty = _converterUpdateToModel.FromEntryModelToModel(oUpdatePropertyEntryModel);
+            UpdatePropertyCommand oUpdatePropertyCommand = new UpdatePropertyCommand(oProperty);
+            ResponseDto oResponseDto = await _mediator.Send(oUpdatePropertyCommand);
+            return Created(string.Empty, oResponseDto);
         }
     }
 }

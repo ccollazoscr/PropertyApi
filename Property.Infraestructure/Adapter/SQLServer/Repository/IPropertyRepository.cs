@@ -12,7 +12,12 @@ namespace Property.Infraestructure.Adapter.SQLServer.Repository
         public long Insert(PropertyEntity oPropertyEntity);
 
         public bool ExistProperty(string code);
+        public bool ExistPropertyWithCondition(string code, long propertyId);
 
-        public bool UpdatePrice(long idProperty, decimal price);
+        public bool UpdatePrice(long propertyId, decimal price);       
+
+        public bool UpdateProperty(PropertyEntity oPropertyEntity);
+
+        public PropertyEntity GetById(long propertyId);
     }
 }

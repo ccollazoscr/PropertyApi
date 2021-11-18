@@ -26,9 +26,26 @@ namespace Property.Infraestructure.Adapter.SQLServer.Adapter
             return _propertyRepository.ExistProperty(code);
         }
 
+        public bool ExistPropertyWithCondition(string code, long propertyId)
+        {
+            return _propertyRepository.ExistPropertyWithCondition(code,propertyId);
+        }
+
         public bool UpdatePrice(long idProperty, decimal price)
         {
             return _propertyRepository.UpdatePrice(idProperty, price);
+        }
+
+        public bool UpdateProperty(PropertyBuilding oPropertyBuilding)
+        {
+            PropertyEntity oPropertyEntity = _converterEntity.FromModelToEntity(oPropertyBuilding);
+            return _propertyRepository.UpdateProperty(oPropertyEntity);
+        }
+
+        public PropertyBuilding GetById(long Id)
+        {
+            PropertyEntity oPropertyEntity = _propertyRepository.GetById(Id);
+            return (oPropertyEntity == null) ? null : _converterEntity.FromEntityToModel(oPropertyEntity);
         }
     }
 }
