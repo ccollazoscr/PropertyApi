@@ -1,15 +1,13 @@
 ﻿using Property.Common.Configuration;
+using Property.Common.Exception;
+using Property.Infraestructure.Common.SQLServer;
 using Property.Infraestructure.Entity;
+using Property.Model.Dto;
+using Property.Model.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dapper;
-using DataAbstractions.Dapper;
-using Property.Infraestructure.Common.SQLServer;
 using System.Data.SqlClient;
-using Property.Common.Exception;
+using System.Linq;
 
 namespace Property.Infraestructure.Adapter.SQLServer.Repository
 {
@@ -83,6 +81,49 @@ namespace Property.Infraestructure.Adapter.SQLServer.Repository
             using (var connection = GetConnection())
             {
                 return connection.Query<PropertyEntity>(sql, new { IdProperty = propertyId }).FirstOrDefault();
+            }
+        }
+
+        public List<GetListPropertyDto> GetList(PropertyBuilding oPropertyBuilding)
+        {
+            string sql = @"SELECT * FROM Property ";
+            List<string> lstFilter = new List<string>();
+            if (oPropertyBuilding.Id > 0) {
+                lstFilter.Add($"IdProperty = {oPropertyBuilding.Id}");
+            }
+            if (!string.IsNullOrWhiteSpace(oPropertyBuilding.Name)) {
+                lstFilter.Add($"Name = '{oPropertyBuilding.Name}'");
+            }
+            if (!string.IsNullOrWhiteSpace(oPropertyBuilding.Address))
+            {
+                lstFilter.Add($"Address = '{oPropertyBuilding.Address}'");
+            }
+            if (oPropertyBuilding.Price>0)
+            {
+                lstFilter.Add($"Price = '{oPropertyBuilding.Price}'");
+            }
+            if (!string.IsNullOrWhiteSpace(oPropertyBuilding.Code))
+            {
+                lstFilter.Add($"CodeInternal = '{oPropertyBuilding.Code}'");
+            }
+            if (oPropertyBuilding.Year>0)
+            {
+                lstFilter.Add($"Year = {oPropertyBuilding.Year}");
+            }
+            if (oPropertyBuilding.Owner?.Id > 0)
+            {
+                lstFilter.Add($"IdOwner = {oPropertyBuilding.Owner.Id}");
+            }
+
+
+            if (lstFilter.Count > 0) {
+                string filter =" WHERE "+ String.Join(" AND ", lstFilter);
+                sql += filter;
+            }
+
+            using (var connection = GetConnection())
+            {
+                return connection.Query<GetListPropertyDto>(sql).ToList();
             }
         }
     }

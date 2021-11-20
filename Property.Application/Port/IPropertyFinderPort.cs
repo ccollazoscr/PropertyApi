@@ -1,9 +1,6 @@
-﻿using Property.Model.Model;
-using System;
+﻿using Property.Model.Dto;
+using Property.Model.Model;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Property.Application.Port
 {
@@ -11,7 +8,7 @@ namespace Property.Application.Port
     {
         bool ExistProperty(string code);
         bool ExistPropertyWithCondition(string code, long propertyId);
-
         PropertyBuilding GetById(long Id);
+        List<GetListPropertyDto> GetListProperty(PropertyBuilding oPropertyBuilding);
     }
 }

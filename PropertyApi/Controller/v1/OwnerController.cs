@@ -1,12 +1,8 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Property.Application.Command;
-using Property.Application.Dto;
+using Property.Model.Dto;
 using PropertyApi.EntryModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 

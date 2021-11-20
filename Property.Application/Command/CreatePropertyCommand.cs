@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Property.Application.Dto;
+using Property.Model.Dto;
 using Property.Model.Model;
 
 

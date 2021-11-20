@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Property.Application.Dto
+namespace Property.Model.Dto
 {
-    public class ResponseDto
+    public class CreatePropertyDto
     {
-        public bool Success { get; set; }
+        public long Id { get; set; }
     }
 }

@@ -1,10 +1,6 @@
 ﻿using MediatR;
-using Property.Application.Dto;
 using Property.Application.Port;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Property.Model.Dto;
 using System.Threading;
 using System.Threading.Tasks;
 

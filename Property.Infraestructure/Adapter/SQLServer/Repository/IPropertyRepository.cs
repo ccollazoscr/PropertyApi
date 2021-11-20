@@ -1,4 +1,6 @@
 ﻿using Property.Infraestructure.Entity;
+using Property.Model.Dto;
+using Property.Model.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +21,7 @@ namespace Property.Infraestructure.Adapter.SQLServer.Repository
         public bool UpdateProperty(PropertyEntity oPropertyEntity);
 
         public PropertyEntity GetById(long propertyId);
+
+        public List<GetListPropertyDto> GetList(PropertyBuilding oPropertyBuilding);
     }
 }

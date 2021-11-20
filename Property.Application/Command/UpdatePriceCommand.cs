@@ -1,10 +1,5 @@
 ﻿using MediatR;
-using Property.Application.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Property.Model.Dto;
 
 namespace Property.Application.Command
 {

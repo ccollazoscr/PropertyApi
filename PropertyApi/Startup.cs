@@ -2,6 +2,7 @@ using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -45,6 +46,15 @@ namespace PropertyApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PropertyApi", Version = "v1" });
             });
+            services
+               .AddMvc()
+               .AddJsonOptions(options =>
+               {
+                    //Camelcase
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+               })
+               .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+               .AddControllersAsServices();
             ConfigureExternalLibraries(services);
             ConfigureApi(services);
             ConfigureApplication(services);
@@ -73,6 +83,7 @@ namespace PropertyApi
             //Converter
             services.AddSingleton(typeof(IEntryModelConverter<CreatePropertyEntryModel, PropertyBuilding>), typeof(CreatePropertyEntryModelConverter));
             services.AddSingleton(typeof(IEntryModelConverter<UpdatePropertyEntryModel, PropertyBuilding>), typeof(UpdatePropertyEntryModelConverter));
+            services.AddSingleton(typeof(IEntryModelConverter<GetListPropertyEntryModel, PropertyBuilding>), typeof(GetListEntryModelConverter));       
         }
 
         private void ConfigureServiceIfraestructure(IServiceCollection services)

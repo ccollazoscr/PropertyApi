@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
-using Property.Application.Dto;
+using Property.Model.Dto;
 
 namespace Property.Application.Command
 {

@@ -1,10 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Property.Application.Command;
-using Property.Application.Dto;
+using Property.Application.Query;
 using Property.Common.Converter;
+using Property.Model.Dto;
 using Property.Model.Model;
 using PropertyApi.EntryModel;
+using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -19,13 +21,16 @@ namespace PropertyApi.Controller.v1
         IMediator _mediator;
         private IEntryModelConverter<CreatePropertyEntryModel, PropertyBuilding> _converterToModel;
         private IEntryModelConverter<UpdatePropertyEntryModel, PropertyBuilding> _converterUpdateToModel;
-
+        IEntryModelConverter<GetListPropertyEntryModel, PropertyBuilding> _converterGetListToModel;
         public PropertyController(IMediator mediator, 
             IEntryModelConverter<CreatePropertyEntryModel, PropertyBuilding> converterToModel, 
-            IEntryModelConverter<UpdatePropertyEntryModel, PropertyBuilding> converterUpdateToModel)
+            IEntryModelConverter<UpdatePropertyEntryModel, PropertyBuilding> converterUpdateToModel,
+            IEntryModelConverter<GetListPropertyEntryModel, PropertyBuilding> converterGetListToModel
+            )
         {
             _converterToModel = converterToModel;
             _converterUpdateToModel = converterUpdateToModel;
+            _converterGetListToModel = converterGetListToModel;
             _mediator = mediator;
         }
 
@@ -56,6 +61,16 @@ namespace PropertyApi.Controller.v1
             UpdatePropertyCommand oUpdatePropertyCommand = new UpdatePropertyCommand(oProperty);
             ResponseDto oResponseDto = await _mediator.Send(oUpdatePropertyCommand);
             return Created(string.Empty, oResponseDto);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(List<GetListPropertyDto>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetListAsync([FromBody] GetListPropertyEntryModel oGetListEntryModel)
+        {
+            PropertyBuilding oProperty = _converterGetListToModel.FromEntryModelToModel(oGetListEntryModel);
+            GetListPropertyQuery oUpdatePropertyCommand = new GetListPropertyQuery(oProperty);
+            List<GetListPropertyDto> oListResponse = await _mediator.Send(oUpdatePropertyCommand);
+            return Created(string.Empty, oListResponse);
         }
     }
 }

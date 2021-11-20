@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using Property.Application.Dto;
 using Property.Application.Port;
 using Property.Common.Exception;
+using Property.Model.Dto;
 using Property.Model.Model;
 using System.Threading;
 using System.Threading.Tasks;

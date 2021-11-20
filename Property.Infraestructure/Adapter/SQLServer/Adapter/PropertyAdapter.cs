@@ -2,7 +2,9 @@
 using Property.Common.Converter;
 using Property.Infraestructure.Adapter.SQLServer.Repository;
 using Property.Infraestructure.Entity;
+using Property.Model.Dto;
 using Property.Model.Model;
+using System.Collections.Generic;
 
 namespace Property.Infraestructure.Adapter.SQLServer.Adapter
 {
@@ -46,6 +48,11 @@ namespace Property.Infraestructure.Adapter.SQLServer.Adapter
         {
             PropertyEntity oPropertyEntity = _propertyRepository.GetById(Id);
             return (oPropertyEntity == null) ? null : _converterEntity.FromEntityToModel(oPropertyEntity);
+        }
+
+        public List<GetListPropertyDto> GetListProperty(PropertyBuilding oPropertyBuilding)
+        {
+            return _propertyRepository.GetList(oPropertyBuilding);
         }
     }
 }
