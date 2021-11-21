@@ -18,8 +18,6 @@ namespace Property.Application.Validator
     {
         public PropertyValidator()
         {
-            RuleFor(item => item)
-                .NotNull().WithMessage($"{EnumErrorCode.PropertyIdOwnerMandatory.GetHashCode()}|The property is mandatory");
             RuleFor(item => item.Name)
                 .NotEmpty().WithMessage($"{EnumErrorCode.PropertyCodeMandatory.GetHashCode()}|Property name is required")
                 .MaximumLength(256).WithMessage($"{EnumErrorCode.PropertyCodeLength.GetHashCode()}|Name must not exceed 256 characters");
@@ -33,11 +31,15 @@ namespace Property.Application.Validator
                 .MaximumLength(32).WithMessage($"{EnumErrorCode.PropertyCodeLength.GetHashCode()}|Code must not exceed 32 characters");
             RuleFor(item => item.Year)
                 .GreaterThanOrEqualTo(1900).WithMessage($"{EnumErrorCode.PropertyYearValue.GetHashCode()}|The year must be greater than or equal to 1900");
-            RuleFor(item => item.Owner)
-                .NotNull().WithMessage($"{EnumErrorCode.PropertyOwnerMandatory.GetHashCode()}|The owner is required");
-            RuleFor(item => item.Owner.Id)
+
+            When(item => item.Owner == null, () =>
+            {
+                RuleFor(item => item.Owner).NotEmpty().WithMessage($"{EnumErrorCode.PropertyOwnerMandatory.GetHashCode()}|The owner is required");
+            }).Otherwise(() => {
+                RuleFor(item => item.Owner.Id)
                 .NotNull().WithMessage($"{EnumErrorCode.PropertyIdOwnerMandatory.GetHashCode()}|The owner id is required")
                 .GreaterThan(0).WithMessage($"{EnumErrorCode.PropertyIdOwnerValue.GetHashCode()}|The owner id must be a value greater than zero");
+            });
         }
     }
 }

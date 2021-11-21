@@ -11,12 +11,12 @@ namespace Property.Application.Validator
             CascadeMode = CascadeMode.Stop;
 
             RuleFor(item => item.Name)
-           .NotEmpty().WithMessage($"{EnumErrorCode.OwnerNameMandatory.GetHashCode()}|Owner name is required")
-           .MaximumLength(128).WithMessage($"{EnumErrorCode.OwnerNameLength.GetHashCode()}|Name must not exceed 128 characters");
+            .NotEmpty().WithMessage($"{EnumErrorCode.OwnerNameMandatory.GetHashCode()}|Owner name is required")
+            .MaximumLength(128).WithMessage($"{EnumErrorCode.OwnerNameLength.GetHashCode()}|Name must not exceed 128 characters");
 
             RuleFor(item => item.Address)
            .NotEmpty().WithMessage($"{EnumErrorCode.OwnerAddressMandatory.GetHashCode()}|Owner address is required")
-           .MaximumLength(128).WithMessage($"{EnumErrorCode.OwnerAddressLength.GetHashCode()}|Address must not exceed 128 characters");
+           .MaximumLength(256).WithMessage($"{EnumErrorCode.OwnerAddressLength.GetHashCode()}|Address must not exceed 256 characters");
 
             When(item => item.Photo != null, () =>
             {
