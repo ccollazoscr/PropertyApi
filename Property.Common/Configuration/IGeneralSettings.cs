@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Property.Common.Configuration
+﻿namespace Property.Common.Configuration
 {
     public interface IGeneralSettings
     {
@@ -12,5 +6,7 @@ namespace Property.Common.Configuration
         string GetOwnerFolder();
         string GetPropertyFolder();
         string GetHost();
+        string GetSecurityServiceUrl();
+        bool GetEnabledSecurity();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Property.Api.Filter;
 using Property.Application.Command;
 using Property.Model.Dto;
 using PropertyApi.EntryModel;
@@ -10,6 +11,7 @@ namespace PropertyApi.Controller.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class OwnerController : ControllerBase
     {
         IMediator _mediator;

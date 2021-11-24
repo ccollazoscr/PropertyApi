@@ -18,6 +18,10 @@ namespace Property.Common.Exception
                 case EnumErrorCode.SaveImageFileStorage:
                     oErrorCode.Description = "Error save image";
                     break;
+                case EnumErrorCode.UnauthorizedUser:
+                    oErrorCode.Description = "Unauthorized user";
+                    oErrorCode.StatusCode = HttpStatusCode.Unauthorized;
+                    break;
                 default:
                     break;
             }

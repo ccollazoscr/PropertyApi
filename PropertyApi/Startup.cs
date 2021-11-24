@@ -15,6 +15,7 @@ using Property.Application.Validator;
 using Property.Common.Configuration;
 using Property.Common.Converter;
 using Property.Infraestructure.Adapter.FileStorage;
+using Property.Infraestructure.Adapter.Service;
 using Property.Infraestructure.Adapter.SQLServer.Adapter;
 using Property.Infraestructure.Adapter.SQLServer.Repository;
 using Property.Infraestructure.Converter;
@@ -23,6 +24,7 @@ using Property.Model.Model;
 using PropertyApi.Converter;
 using PropertyApi.EntryModel;
 using PropertyApi.Exception;
+using System;
 using System.IO;
 using System.Reflection;
 
@@ -96,9 +98,14 @@ namespace PropertyApi
             GeneralSettings oGeneraSettings = new GeneralSettings().SetRootFolder(Configuration.GetSection("StaticFiles:Root").Value)
                                                               .SetOwnerFolder(Configuration.GetSection("StaticFiles:Owners").Value)
                                                               .SetPropertyFolder(Configuration.GetSection("StaticFiles:Properties").Value)
-                                                              .SetHost(Configuration.GetSection("Host").Value);
+                                                              .SetHost(Configuration.GetSection("Host").Value)
+                                                              .SetSecurityServiceUrl(Configuration.GetSection("Security:SecurityService").Value)
+                                                              .SetEnabledSecurity(Convert.ToBoolean(Configuration.GetSection("Security:Enabled").Value));
             services.AddSingleton<IGeneralSettings>(oGeneraSettings);
 
+            //Security
+            services.AddScoped<ISecurityService, SecurityService>();
+            
             //Converter
             services.AddSingleton(typeof(IEntityConverter<PropertyBuilding, PropertyEntity>), typeof(PropertyConverter));
             services.AddSingleton(typeof(IEntityConverter<Owner, OwnerEntity>), typeof(OwnerConverter));

@@ -7,6 +7,7 @@ namespace Property.Common.Exception
     public enum EnumErrorCode
     {
         Generic = 1,
+        UnauthorizedUser = 2,
 
         ConstraintViolated = 10000,
         SaveImageFileStorage = 10001,

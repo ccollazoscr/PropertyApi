@@ -6,6 +6,8 @@
         private string OwnerFolder;
         private string PropertyFolder;
         private string Host;
+        private string SecurityServiceUrl;
+        private bool EnabledSecurity;
 
         public GeneralSettings SetRootFolder(string rootFolder)
         {
@@ -31,6 +33,17 @@
             return this;
         }
 
+        public GeneralSettings SetSecurityServiceUrl(string securityServiceUrl) {
+            SecurityServiceUrl = securityServiceUrl;
+            return this;
+        }
+
+        public GeneralSettings SetEnabledSecurity(bool enabledSecurity)
+        {
+            EnabledSecurity = enabledSecurity;
+            return this;
+        }
+
         public string GetRootFolder()
         {
             return RootFolder;
@@ -49,6 +62,16 @@
         public string GetHost()
         {
             return Host;
+        }
+
+        public string GetSecurityServiceUrl()
+        {
+            return SecurityServiceUrl;
+        }
+
+        public bool GetEnabledSecurity()
+        {
+            return EnabledSecurity;
         }
     }
 }

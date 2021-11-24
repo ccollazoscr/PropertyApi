@@ -8,6 +8,8 @@
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="DataAbstractions.Dapper" Version="3.0.0" />
+    <PackageReference Include="Flurl" Version="3.0.2" />
+    <PackageReference Include="Flurl.Http" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
   </ItemGroup>
@@ -24,7 +26,6 @@
     <Folder Include="Adapter\KeyVault\" />
     <Folder Include="Adapter\MessageBroker\" />
     <Folder Include="Adapter\MongoDB\" />
-    <Folder Include="Adapter\Service\" />
   </ItemGroup>
 
 </Project>
