@@ -21,7 +21,7 @@ namespace PropertyApi.Controller.v1
 
         [HttpPost]
         [ProducesResponseType(typeof(CreateOwnerDto), (int)HttpStatusCode.Created)]
-        public async Task<IActionResult> CreatePropertyAsync([FromForm] CreateOwnerEntryModel oCreateOwnerEntryModel)
+        public async Task<IActionResult> CreateOwnerAsync([FromForm] CreateOwnerEntryModel oCreateOwnerEntryModel)
         {
             CreateOwnerCommand oCreateOwnerCommand = new CreateOwnerCommand()
                                                             .SetName(oCreateOwnerEntryModel.Name)

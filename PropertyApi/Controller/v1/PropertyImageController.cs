@@ -23,14 +23,13 @@ namespace PropertyApi.Controller.v1
 
         [HttpPost]
         [ProducesResponseType(typeof(CreatePropertyImageDto), (int)HttpStatusCode.Created)]
-        public async Task<IActionResult> CreatePropertyAsync([FromForm] CreatePropertyImageEntryModel oCreatePropertyEntryModel)
+        public async Task<IActionResult> CreatePropertyImageAsync([FromForm] CreatePropertyImageEntryModel oCreatePropertyEntryModel)
         {
             CreatePropertyImageCommand oCreatePropertyCommand = new CreatePropertyImageCommand()
                                                                     .SetIdProperty(oCreatePropertyEntryModel.IdProperty)
                                                                     .SetFile(oCreatePropertyEntryModel.File)
                                                                     .SetEnabled(oCreatePropertyEntryModel.Enabled);
             CreatePropertyImageDto oResCreatePropertyImageDto = await _mediator.Send(oCreatePropertyCommand);
-            //TODO: Response
             return Created(string.Empty, oResCreatePropertyImageDto);
         }
     }

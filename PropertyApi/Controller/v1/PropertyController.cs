@@ -23,7 +23,7 @@ namespace PropertyApi.Controller.v1
         IMediator _mediator;
         private IEntryModelConverter<CreatePropertyEntryModel, PropertyBuilding> _converterToModel;
         private IEntryModelConverter<UpdatePropertyEntryModel, PropertyBuilding> _converterUpdateToModel;
-        IEntryModelConverter<GetListPropertyEntryModel, PropertyBuilding> _converterGetListToModel;
+        private IEntryModelConverter<GetListPropertyEntryModel, PropertyBuilding> _converterGetListToModel;
         public PropertyController(IMediator mediator, 
             IEntryModelConverter<CreatePropertyEntryModel, PropertyBuilding> converterToModel, 
             IEntryModelConverter<UpdatePropertyEntryModel, PropertyBuilding> converterUpdateToModel,
@@ -62,7 +62,7 @@ namespace PropertyApi.Controller.v1
             PropertyBuilding oProperty = _converterUpdateToModel.FromEntryModelToModel(oUpdatePropertyEntryModel);
             UpdatePropertyCommand oUpdatePropertyCommand = new UpdatePropertyCommand(oProperty);
             ResponseDto oResponseDto = await _mediator.Send(oUpdatePropertyCommand);
-            return Created(string.Empty, oResponseDto);
+            return Ok(oResponseDto);
         }
 
         [HttpGet]
@@ -72,7 +72,7 @@ namespace PropertyApi.Controller.v1
             PropertyBuilding oProperty = _converterGetListToModel.FromEntryModelToModel(oGetListEntryModel);
             GetListPropertyQuery oUpdatePropertyCommand = new GetListPropertyQuery(oProperty);
             List<GetListPropertyDto> oListResponse = await _mediator.Send(oUpdatePropertyCommand);
-            return Created(string.Empty, oListResponse);
+            return Ok(oListResponse);
         }
     }
 }
