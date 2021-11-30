@@ -1,13 +1,7 @@
-﻿using Property.Common.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Flurl;
-using Flurl.Http;
-using Newtonsoft.Json;
+﻿using Flurl.Http;
+using Property.Common.Configuration;
 using Property.Model.Dto;
+using System.Threading.Tasks;
 
 namespace Property.Infraestructure.Adapter.Service
 {
